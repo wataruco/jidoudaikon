@@ -17,6 +17,7 @@ import twitter
 import os
 import csv
 import logging
+import random
 
 # 認証に必要なキーとトークン
 
@@ -26,19 +27,23 @@ API_SECRET = ""
 ACCESS_TOKEN = ""
 ACCESS_TOKEN_SECRET = ""
 keypasscsv = 'C:\\Users\watar\OneDrive\Documents\\twipass.csv'
+twitextpass =  'agatha.csv'
 def main():
     logging.basicConfig()
     logger = logging.getLogger(__name__)
     keypass = csvcheck(keypasscsv)
+    twiarray = csvcheck(twitextpass)
+    tweet_ward = "データ収集中・・・ pythonより投稿テスト\n" + twiarray[random.randint(0,len(twiarray)-1)]
+
 
     API_KEY = keypass[0]
     API_SECRET = keypass[1]
     ACCESS_TOKEN = keypass[2]
     ACCESS_TOKEN_SECRET = keypass[3]
+    
     # APIの認証
     auth = tweepy.OAuthHandler(API_KEY, API_SECRET)
     auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-    tweet_ward = "私は大根様のしもべです"      #ツイートする言葉
     cli = tweepy.Client(consumer_key=API_KEY, consumer_secret=API_SECRET, access_token=ACCESS_TOKEN, access_token_secret=ACCESS_TOKEN_SECRET)
     tweeter(cli,tweet_ward)
 

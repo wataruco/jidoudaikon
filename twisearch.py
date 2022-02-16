@@ -18,6 +18,9 @@ import csv
 import logging
 import time
 import datetime
+from datetime import datetime,timezone
+import pytz
+import pandas as pd
 
 # 認証に必要なキーとトークン
 
@@ -31,6 +34,7 @@ def main():
     logging.basicConfig()
     logger = logging.getLogger(__name__)
     keypass = csvcheck(keypasscsv)
+    searcharray = csvcheck("search.csv")
 
     API_KEY = keypass[0]
     API_SECRET = keypass[1]
@@ -39,24 +43,24 @@ def main():
     # APIの認証
     auth = tweepy.OAuthHandler(API_KEY, API_SECRET)
     auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-    search_ward = "VTuber"      #検索する言葉
-    math = 30                   #検索する数
-    twisearch(auth,search_ward,math)
+
+    math = 45                   #検索する数
+    twisearch(auth,searcharray,math)
 
 
-def twisearch(auth,search_ward,math):
+def twisearch(auth,searcharray,math):
     # キーワードからツイートを取得
     api = tweepy.API(auth)
-    tweets = api.search_tweets(q=search_ward, count=math)
-    now = datetime.datetime.now()
-    filename = 'C:\\Users\watar\OneDrive\Documents\datastrage\\' + search_ward + " " + now.strftime('%Y%m%d_%H%M%S') + '.txt'
-    f = open(filename, 'w', encoding='UTF-8')
-
-    for tweet in tweets:
-        print('-----------------')
-        print(tweet.text)
-        f.writelines(tweet.text)
-        f.writelines('\n-----------------\n')
+    for search_ward in searcharray:
+        tweets = api.search_tweets(q=search_ward, count=math)
+        now = datetime.now()
+        filename = 'C:\\Users\watar\OneDrive\Documents\datastrage\RawData\\' + search_ward + " " + now.strftime('%Y%m%d_%H') + '.csv'
+        print(filename + "記述")
+        f = open(filename, 'a', encoding="utf_8_sig")
+        for tweet in tweets:
+            writeline = str(tweet.user.id) + "," + tweet.user.screen_name + "," + change_time_JST(tweet.created_at) + ",\"" + tweet.text + "\"" + "\n"
+            f.writelines(writeline)
+        time.sleep(3)
         
 
 
@@ -67,6 +71,16 @@ def csvcheck(passcsv):      #csvを呼んでリストにして返す
         for row in reader:
             csvdata.append(row[0])
     return csvdata
+
+def change_time_JST(u_time):
+    #イギリスのtimezoneを設定するために再定義する
+    utc_time = datetime(u_time.year, u_time.month,u_time.day, \
+    u_time.hour,u_time.minute,u_time.second, tzinfo=timezone.utc)
+    #タイムゾーンを日本時刻に変換
+    jst_time = utc_time.astimezone(pytz.timezone("Asia/Tokyo"))
+    # 文字列で返す
+    str_time = jst_time.strftime("%Y-%m-%d_%H:%M:%S")
+    return str_time
 
 if __name__ == "__main__":
         main()
