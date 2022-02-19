@@ -21,6 +21,9 @@ import datetime
 from datetime import datetime,timezone
 import pytz
 import pandas as pd
+import random
+import wordcroudmake
+import twicsv
 
 # 認証に必要なキーとトークン
 
@@ -45,8 +48,35 @@ def main():
 
     woeid = 23424856                   #検索する数
     trend = twitrendget(auth,woeid)
-    print(trend[0])
+    print("トレンド取得 1位は" + trend[0])
+    #tweet_dataのリストをpandasのDataFrameに変換
+    df = pd.DataFrame(trend)
+    #--- ここから新しい内容 ---
+    #csvのファイル名
+    now = datetime.now()
+    file_name="..\..\datastrage\\trend\old\\trend" + " " + now.strftime('%Y%m%d_%H%M') + '.csv'
+    csvmake(file_name,df)
+    csvmake("..\..\datastrage\\trend\\trend.csv",df)
+    twicsv.main()
+    datacsv = csvcheck("..\..\datastrage\\trend\\trend.csv")
+    select_trend = datacsv[random.randint(0,19)]
+    filename = wordcroudmake.wordcroudmaker(select_trend)
+    return filename
 
+
+def csvmake(file_name,df):
+    #カレントディレクトリを取得
+    current_path = os.getcwd()
+    #csvファイルの絶対パス
+    file_path = os.path.join(current_path,file_name)
+    #カレントディレクトリにtweet.csvが存在するか？
+    file_check = os.path.isfile(file_path)
+    #同じ名前のファイルがないとき
+    if not file_check:  
+        df.to_csv(file_name,encoding='utf-8-sig',index=False)
+    #すでに同じファイルが存在しているとき
+    else:
+        df.to_csv(file_name,encoding='utf-8-sig',index=False)
 
 def twitrendget(auth,woeid):
     # キーワードからツイートを取得
@@ -61,12 +91,10 @@ def twitrendget(auth,woeid):
             
 
 
-def csvcheck(passcsv):      #csvを呼んでリストにして返す
+def csvcheck(passcsv):
     csvdata = []
-    with open(passcsv) as f:
-        reader = csv.reader(f)
-        for row in reader:
-            csvdata.append(row[0])
+    df = pd.read_table(passcsv)
+    csvdata = df["name"]
     return csvdata
 
 def change_time_JST(u_time):

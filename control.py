@@ -22,6 +22,8 @@ import tweeter
 import twisearch
 import twicsv
 import time
+import schedule
+import twitrend
 
 # 認証に必要なキーとトークン
 
@@ -33,12 +35,16 @@ ACCESS_TOKEN_SECRET = ""
 keypasscsv = 'C:\\Users\watar\OneDrive\Documents\\twipass.csv'
 twitextpass =  'agatha.csv'
 def main():
+    schedule.every(15).minutes.do(dojob)
+    dojob()
     while True:
-        twicsv.main()
-        i = random.randint(1,10)
-        if i == 7:
-            tweeter.main()
-        time.sleep(300)
+        schedule.run_pending()
+        time.sleep(1)
+
+def dojob():
+    filename = twitrend.main()
+    tweeter.main(filename)
+
 
 
 def csvcheck(passcsv):      #csvを呼んでリストにして返す

@@ -20,7 +20,9 @@ def main():
 
     keypass = csvcheck(keypasscsv)
     searcharray = csvcheck("search.csv")
-    item_num = 40    #ツイッターのサーチ数
+    trenharray = csvcheck("..\..\datastrage\\trend\\trend.csv")
+    trend15 = trenharray[0:20]
+    item_num = 30    #ツイッターのサーチ数
     API_KEY = keypass[0]
     API_SECRET = keypass[1]
     ACCESS_TOKEN = keypass[2]
@@ -30,6 +32,10 @@ def main():
     api = tweepy.API(auth)
 
     for searchword in searcharray:
+        twicsv(searchword,item_num,api)
+        print(searchword + "取得")
+        sleep(2)    
+    for searchword in trend15:
         twicsv(searchword,item_num,api)
         print(searchword + "取得")
         sleep(2)
@@ -120,10 +126,8 @@ def change_time_JST(u_time):
 #csvを呼んでリストにして返す
 def csvcheck(passcsv):
     csvdata = []
-    with open(passcsv) as f:
-        reader = csv.reader(f)
-        for row in reader:
-            csvdata.append(row[0])
+    df = pd.read_table(passcsv)
+    csvdata = df["name"]
     return csvdata
 
 if __name__ == "__main__":

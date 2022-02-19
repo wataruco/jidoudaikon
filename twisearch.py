@@ -35,6 +35,7 @@ def main():
     logger = logging.getLogger(__name__)
     keypass = csvcheck(keypasscsv)
     searcharray = csvcheck("search.csv")
+    trendharray = csvcheck("..\..\datastrage\\trend\\trend.csv")
 
     API_KEY = keypass[0]
     API_SECRET = keypass[1]
@@ -46,6 +47,7 @@ def main():
 
     math = 45                   #検索する数
     twisearch(auth,searcharray,math)
+    twisearch(auth,trendharray,math)
 
 
 def twisearch(auth,searcharray,math):
