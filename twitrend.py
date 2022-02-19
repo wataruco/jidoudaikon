@@ -11,7 +11,10 @@ Created on Sun Aug 15 06:07:39 2021
  
 #csvに収めたキーを利用して特定の言葉を含むツイートを取得する
 
-from ast import keyword
+from ast import While, keyword
+from lib2to3.pytree import WildcardPattern
+from numpy import true_divide
+import numpy as np
 import tweepy
 import os
 import csv
@@ -33,10 +36,12 @@ API_SECRET = ""
 ACCESS_TOKEN = ""
 ACCESS_TOKEN_SECRET = ""
 keypasscsv = 'C:\\Users\watar\OneDrive\Documents\\twipass.csv'
+file_name2="..\..\datastrage\\trend\\trendrireki.csv"
 def main():
     logging.basicConfig()
     logger = logging.getLogger(__name__)
     keypass = csvcheck(keypasscsv)
+    rirekiarray = csvcheck(file_name2)
 
     API_KEY = keypass[0]
     API_SECRET = keypass[1]
@@ -60,6 +65,22 @@ def main():
     twicsv.main()
     datacsv = csvcheck("..\..\datastrage\\trend\\trend.csv")
     select_trend = datacsv[random.randint(0,19)]
+    print(select_trend)
+    while True:
+        if select_trend in rirekiarray.tolist():
+            select_trend = datacsv[random.randint(0,19)]
+            print("データ被り")
+            print(select_trend)
+        else:
+            rirekiarray = np.roll(rirekiarray,1)
+            rirekiarray[0] = select_trend
+            print(rirekiarray.tolist())
+            df = pd.DataFrame(data = {'name':rirekiarray})
+            print(df)
+            df.to_csv(file_name2,encoding='utf-8-sig',index=False)
+            break
+
+
     filename = wordcroudmake.wordcroudmaker(select_trend)
     return filename
 

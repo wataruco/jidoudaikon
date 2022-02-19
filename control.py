@@ -24,6 +24,7 @@ import twicsv
 import time
 import schedule
 import twitrend
+import followback
 
 # 認証に必要なキーとトークン
 
@@ -43,6 +44,7 @@ def main():
 
 def dojob():
     filename = twitrend.main()
+    followback.main()
     tweeter.main(filename)
 
 

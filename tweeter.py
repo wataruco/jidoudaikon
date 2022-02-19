@@ -39,9 +39,10 @@ def main(picfilename):
     # tweet_ward = "データ収集中・・・ pythonより投稿テスト\n" + twiarray[random.randint(0,len(twiarray)-1)]
     trend = picfilename.replace("..\..\datastrage\wordcroud\\","")
     trend = trend[:-16]
-    tweet_ward.append("pythonより画像付きツイート投稿テスト")
+    tweet_ward.append("pythonより画像付きツイート投稿")
     tweet_ward.append("トレンドの情報を画像に集めます")
     tweet_ward.append("対象のトレンドワードは「" + trend + "」です")
+    tweet_ward.append("フォローバック中なのでスクリプトが動いているときはフォローバックします")
     twittertext='\n'.join(tweet_ward)
 
     API_KEY = keypass[0]

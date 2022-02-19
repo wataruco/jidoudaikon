@@ -18,6 +18,7 @@ import csv
 import logging
 import time
 import datetime
+import pandas as pd
 
 # 認証に必要なキーとトークン
 
@@ -44,23 +45,31 @@ def main():
 
 def foroba(auth):
     # キーワードからツイートを取得
+    follow_list = []
     api = tweepy.API(auth)
-    follower_list= api.get_friends(count=50)#デフォルトで20
-    for follower in follower_list:
-        des= follower.description
-        if "ネットビジネス" | "副業" | "万" in des:
-            pass
+    follower_list = api.get_follower_ids(count=50)
+    friend_list = api.get_friend_ids()
+    print("現在フォローされてるid")
+    print(follower_list)
+    print("現在フォローしてるid")
+    print(friend_list)
+    for i in follower_list:
+        if i not in friend_list:
+            follow_list.append(i)
+    print("今回フォローするid")
+    print(follow_list)
+    for followid in follow_list:
+        if api.get_user(user_id=followid).protected:
+            print("鍵垢検知")
         else:
-            follower_id= follower.id
-            api.create_friendship(follower.id)
+            api.create_friendship(user_id=followid)
+        time.sleep(1)
 
 
-def csvcheck(passcsv):      #csvを呼んでリストにして返す
+def csvcheck(passcsv):
     csvdata = []
-    with open(passcsv) as f:
-        reader = csv.reader(f)
-        for row in reader:
-            csvdata.append(row[0])
+    df = pd.read_table(passcsv)
+    csvdata = df["name"]
     return csvdata
 
 if __name__ == "__main__":
