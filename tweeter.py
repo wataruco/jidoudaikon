@@ -42,7 +42,7 @@ def main(picfilename):
     tweet_ward.append("pythonより画像付きツイート投稿")
     tweet_ward.append("トレンドの情報を画像に集めます")
     tweet_ward.append("対象のトレンドワードは「" + trend + "」です")
-    tweet_ward.append("フォローバック中なのでスクリプトが動いているときはフォローバックします")
+    tweet_ward.append("自動フォローバック中なのでスクリプトが動いているときはフォロバします")
     twittertext='\n'.join(tweet_ward)
 
     API_KEY = keypass[0]

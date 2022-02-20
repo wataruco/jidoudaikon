@@ -74,9 +74,7 @@ def main():
         else:
             rirekiarray = np.roll(rirekiarray,1)
             rirekiarray[0] = select_trend
-            print(rirekiarray.tolist())
             df = pd.DataFrame(data = {'name':rirekiarray})
-            print(df)
             df.to_csv(file_name2,encoding='utf-8-sig',index=False)
             break
 

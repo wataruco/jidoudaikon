@@ -33,12 +33,10 @@ def main():
 
     for searchword in searcharray:
         twicsv(searchword,item_num,api)
-        print(searchword + "取得")
-        sleep(2)    
+        sleep(1)    
     for searchword in trend15:
         twicsv(searchword,item_num,api)
-        print(searchword + "取得")
-        sleep(2)
+        sleep(1)
 
 def twicsv(searchkey,item_num,api):
     tweets = tweepy.Cursor(api.search_tweets,q=searchkey,lang='ja').items(item_num)

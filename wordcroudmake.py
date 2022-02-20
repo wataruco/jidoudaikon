@@ -13,6 +13,8 @@ def main():
 def wordcroudmaker(treword):
     fontlist = csvcheck("fontlist.csv")
     font = fontlist[random.randint(0,11)]
+    colormaps = csvcheck("colormap.csv")
+    colormap = colormaps[random.randint(0,len(colormaps)-1)]
     text = ""
     df = pd.read_csv("..\..\datastrage\RawData\\" + treword + ".csv")
     textarray = df["ツイート内容"]
@@ -29,15 +31,16 @@ def wordcroudmaker(treword):
         if hinshi in ["名詞","動詞","形容詞"]:
             origin = node.feature.split(",")[6]
             #word = word + " " + origin
-            if origin not in ["する","いる","ある","なる",treword]:
+            if origin not in ["する","いる","ある","なる"]:
                 word = word + " " + origin
         node = node.next
 
         from wordcloud import WordCloud
     
+    print("font:" + font)
+    print("colormap:" + colormap)
     fpath = "C:\Windows\\fonts\\" + font
-    print(fpath)
-    wordcloud = WordCloud(background_color="white",font_path=fpath,width=600,height=400,min_font_size=15)
+    wordcloud = WordCloud(background_color="white",font_path=fpath,width=600,height=400,min_font_size=15,colormap=colormap)
     wordcloud.generate(word)
     now = datetime.now()
     filename = "..\..\datastrage\wordcroud\\" + treword + now.strftime('%Y%m%d%H%M') + ".png"
