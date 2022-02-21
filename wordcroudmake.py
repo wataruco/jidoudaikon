@@ -12,7 +12,7 @@ def main():
 
 def wordcroudmaker(treword):
     fontlist = csvcheck("fontlist.csv")
-    font = fontlist[random.randint(0,11)]
+    font = fontlist[random.randint(0,len(fontlist)-1)]
     colormaps = csvcheck("colormap.csv")
     colormap = colormaps[random.randint(0,len(colormaps)-1)]
     text = ""

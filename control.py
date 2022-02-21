@@ -36,7 +36,7 @@ ACCESS_TOKEN_SECRET = ""
 keypasscsv = 'C:\\Users\watar\OneDrive\Documents\\twipass.csv'
 twitextpass =  'agatha.csv'
 def main():
-    schedule.every(15).minutes.do(dojob)
+    schedule.every(30).minutes.do(dojob)
     dojob()
     while True:
         schedule.run_pending()
