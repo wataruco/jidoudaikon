@@ -21,8 +21,8 @@ def main():
     keypass = csvcheck(keypasscsv)
     searcharray = csvcheck("search.csv")
     trenharray = csvcheck("..\..\datastrage\\trend\\trend.csv")
-    trend15 = trenharray[0:20]
-    item_num = 30    #ツイッターのサーチ数
+    trend15 = trenharray[0:30]
+    item_num = 50    #ツイッターのサーチ数
     API_KEY = keypass[0]
     API_SECRET = keypass[1]
     ACCESS_TOKEN = keypass[2]

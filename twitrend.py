@@ -27,6 +27,7 @@ import pandas as pd
 import random
 import wordcroudmake
 import twicsv
+import trendanalize
 
 # 認証に必要なキーとトークン
 
@@ -51,7 +52,7 @@ def main():
     auth = tweepy.OAuthHandler(API_KEY, API_SECRET)
     auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
-    woeid = 23424856                   #検索する数
+    woeid = 23424856                   #日本のコード
     trend = twitrendget(auth,woeid)
     print("トレンド取得 1位は" + trend[0])
     #tweet_dataのリストをpandasのDataFrameに変換
@@ -64,11 +65,26 @@ def main():
     csvmake("..\..\datastrage\\trend\\trend.csv",df)
     twicsv.main()
     datacsv = csvcheck("..\..\datastrage\\trend\\trend.csv")
-    select_trend = datacsv[random.randint(0,19)]
-    print(select_trend)
+    select_trend = datacsv[random.randint(0,14)]
+    print("選択ワード:"+select_trend)
     while True:
-        if select_trend in rirekiarray.tolist():
-            select_trend = datacsv[random.randint(0,19)]
+        if trendanalize.analize(select_trend,rirekiarray[0])==False:
+            print("データ被り:"+select_trend+"と"+datacsv[0])
+            select_trend = datacsv[random.randint(0,29)]
+            print("再選択ワード:"+select_trend)
+            print(select_trend)
+        elif trendanalize.analize(select_trend,rirekiarray[1])==False:
+            print("データ被り:"+select_trend+"と"+datacsv[1])
+            select_trend = datacsv[random.randint(0,29)]
+            print("再選択ワード:"+select_trend)
+            print(select_trend)
+        elif trendanalize.analize(select_trend,rirekiarray[2])==False:
+            print("データ被り:"+select_trend+"と"+datacsv[2])
+            select_trend = datacsv[random.randint(0,29)]
+            print("再選択ワード:"+select_trend)
+            print(select_trend)
+        elif select_trend in rirekiarray.tolist():
+            select_trend = datacsv[random.randint(0,29)]
             print("データ被り")
             print(select_trend)
         else:
@@ -77,6 +93,18 @@ def main():
             df = pd.DataFrame(data = {'name':rirekiarray})
             df.to_csv(file_name2,encoding='utf-8-sig',index=False)
             break
+
+    # while True:
+    #     if select_trend in rirekiarray.tolist():
+    #         select_trend = datacsv[random.randint(0,19)]
+    #         print("データ被り")
+    #         print(select_trend)
+    #     else:
+    #         rirekiarray = np.roll(rirekiarray,1)
+    #         rirekiarray[0] = select_trend
+    #         df = pd.DataFrame(data = {'name':rirekiarray})
+    #         df.to_csv(file_name2,encoding='utf-8-sig',index=False)
+    #         break
 
 
     filename = wordcroudmake.wordcroudmaker(select_trend)
@@ -102,6 +130,7 @@ def twitrendget(auth,woeid):
     api = tweepy.API(auth)
     #トレンド一覧取得
     trends = api.get_place_trends(woeid)
+    naradeha = api.available_trends()
 
     #データフレームに変換
     import pandas as pd

@@ -3,7 +3,7 @@ import MeCab
 from matplotlib.cbook import flatten
 import pandas as pd
 from datetime import datetime,timezone
-
+from wordcloud import WordCloud
 font = ""
 
 def main():
@@ -34,8 +34,6 @@ def wordcroudmaker(treword):
             if origin not in ["する","いる","ある","なる"]:
                 word = word + " " + origin
         node = node.next
-
-        from wordcloud import WordCloud
     
     print("font:" + font)
     print("colormap:" + colormap)
