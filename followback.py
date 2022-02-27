@@ -49,10 +49,6 @@ def foroba(auth):
     api = tweepy.API(auth)
     follower_list = api.get_follower_ids(count=50)
     friend_list = api.get_friend_ids()
-    print("現在フォローされてるid")
-    print(follower_list)
-    print("現在フォローしてるid")
-    print(friend_list)
     for i in follower_list:
         if i not in friend_list:
             follow_list.append(i)
