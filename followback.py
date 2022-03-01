@@ -27,7 +27,7 @@ API_KEY = ""
 API_SECRET = ""
 ACCESS_TOKEN = ""
 ACCESS_TOKEN_SECRET = ""
-keypasscsv = 'C:\\Users\watar\OneDrive\Documents\\twipass.csv'
+keypasscsv = '..\..\\twipass.csv'
 def main():
     logging.basicConfig()
     logger = logging.getLogger(__name__)

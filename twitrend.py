@@ -26,7 +26,7 @@ import pytz
 import pandas as pd
 import random
 import wordcroudmake
-import twicsv
+import twicsv2
 import trendanalize
 
 # 認証に必要なキーとトークン
@@ -36,7 +36,7 @@ API_KEY = ""
 API_SECRET = ""
 ACCESS_TOKEN = ""
 ACCESS_TOKEN_SECRET = ""
-keypasscsv = 'C:\\Users\watar\OneDrive\Documents\\twipass.csv'
+keypasscsv = '..\..\\twipass.csv'
 file_name2="..\..\datastrage\\trend\\trendrireki.csv"
 def main():
     logging.basicConfig()
@@ -63,7 +63,7 @@ def main():
     file_name="..\..\datastrage\\trend\old\\trend" + " " + now.strftime('%Y%m%d_%H%M') + '.csv'
     csvmake(file_name,df)
     csvmake("..\..\datastrage\\trend\\trend.csv",df)
-    twicsv.main()
+    twicsv2.main()
     datacsv = csvcheck("..\..\datastrage\\trend\\trend.csv")
     select_trend = datacsv[random.randint(0,14)]
     print("選択ワード:"+select_trend)

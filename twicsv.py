@@ -16,7 +16,7 @@ def main():
     API_SECRET = ""
     ACCESS_TOKEN = ""
     ACCESS_TOKEN_SECRET = ""
-    keypasscsv = 'C:\\Users\watar\OneDrive\Documents\\twipass.csv'
+    keypasscsv = '..\..\\twipass.csv'
 
     keypass = csvcheck(keypasscsv)
     searcharray = csvcheck("search.csv")
@@ -35,7 +35,11 @@ def main():
         twicsv(searchword,item_num,api)
         sleep(1)    
     for searchword in trend15:
-        twicsv(searchword,item_num,api)
+        try:
+            twicsv(searchword,item_num,api)
+        except Exception as e:
+            print("csvにするのにファイル名がおかしいエラーです")
+            print(e)
         sleep(1)
 
 def twicsv(searchkey,item_num,api):

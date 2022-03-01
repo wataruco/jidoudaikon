@@ -23,7 +23,7 @@ import twisearch
 import twicsv
 import time
 import schedule
-import twitrend
+import twitrend2
 import followback
 
 # 認証に必要なキーとトークン
@@ -33,11 +33,11 @@ API_KEY = ""
 API_SECRET = ""
 ACCESS_TOKEN = ""
 ACCESS_TOKEN_SECRET = ""
-keypasscsv = 'C:\\Users\watar\OneDrive\Documents\\twipass.csv'
+keypasscsv = '..\..\\twipass.csv'
 twitextpass =  'agatha.csv'
 def main():
     try:
-        filename = twitrend.main()
+        filename = twitrend2.main()
     except Exception as e:
         print("エラーなので一回休みです")
         print(e)
